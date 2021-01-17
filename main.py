@@ -13,35 +13,32 @@ clock.tick(30)
 running = True
 done = False
 size = 15
-Startgame = False
+NoStart = False
+pressed_keys = [False, False]
 def draw_grid():
     for x in range(wind_width):
         for y in range(wind_height):
             rect = pygame.Rect(x*size, y*size, size, size)
             pygame.draw.rect(screen, white, rect, 1)
-def fill_square():
-    global keys
+def fill_square(color):
     x = int(pygame.mouse.get_pos()[0] / size) * size
     y = int(pygame.mouse.get_pos()[1] / size) * size
-    click = pygame.mouse.get_pressed()
-    if click[2] == True:
-        pygame.draw.rect(screen, red, (x, y, size , size), 0)
-    if click[0] == True and Startgame == False:
-            pygame.draw.rect(screen, green, (x, y, size, size), 0)
-            Startgame = True
-    print("helo")
-    if Startgame == True:
-        pygame.draw.rect(screen, blue, (x, y, size, size), 0 )
+    pygame.draw.rect(screen, color, (x, y, size, size), 0)
 draw_grid()
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_s:
-            print("oh shit")
+        if event.type == pygame.KEYDOWN:
+            if event.key == 115:
+                fill_square(green)
+            if event.key == 101:
+                fill_square(blue)
+    click = pygame.mouse.get_pressed()
+    if click[2] == True:
+        fill_square(red)
     pygame.display.flip()
-    fill_square()
     pygame.display.update()
+    pressed_keys[0] = False
 pygame.quit()
 
